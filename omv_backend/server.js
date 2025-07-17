@@ -64,12 +64,24 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 
-// CORS Configuration
-const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
+// Update CORS configuration
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'https://omv-frontend.vercel.app',
+  'http://localhost:5173'
+];
 
 app.use(cors({
-  origin: allowedOrigin,
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 // Test Route
