@@ -1,5 +1,11 @@
 {
+  "version": 2,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/about", "destination": "/index.html" },
+    {
+      "source": "/api/:path*",
+      "destination": "https://your-backend-app.vercel.app/api/:path*"
+    }
   ]
 }
