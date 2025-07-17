@@ -1,0 +1,23 @@
+node_modules
+# Logs
+logs
+*.log
+
+# Dependency folders
+omv/node_modules
+server/node_modules
+
+# Build
+omv/dist
+server/dist
+dist-ssr
+
+# Environment files
+omv/.env
+server/.env
+*.local
+
+# Editor folders
+.vscode/
+.idea
+.DS_Store
