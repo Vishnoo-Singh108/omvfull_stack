@@ -4,8 +4,8 @@ logs
 *.log
 
 # Dependency folders
-omv/node_modules
-server/node_modules
+omv_backend/node_modules
+omv_frontend/node_modules
 
 # Build
 omv/dist
@@ -13,8 +13,8 @@ server/dist
 dist-ssr
 
 # Environment files
-omv/.env
-server/.env
+omv_backend/.env
+omv_frontend/.env
 *.local
 
 # Editor folders
