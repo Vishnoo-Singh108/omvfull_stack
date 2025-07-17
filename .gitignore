@@ -21,3 +21,4 @@ server/.env
 .vscode/
 .idea
 .DS_Store
+.vercel
