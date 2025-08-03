@@ -7,7 +7,7 @@ const Academic = () => {
     <>
       <Navi/>
 
-      <div className="bg-black min-h-screen px-4 py-8">
+      <div className="bg-violet-950 bg-gradient-to-r from-purple-900 via-black to-blue-950 min-h-screen px-4 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           
           <Postcard
@@ -35,7 +35,7 @@ const Academic = () => {
             addre="www.youtube.com/watch?v=rQoqCP7LX60&list=PLxgZQoSe9cg1drBnejUaDD9GEJBGQ5hMt"
           />
           <Postcard
-            username="Apna College"
+            username="Apna College" 
             image="web.jpg"
             description="It is useful to take the test of frotend web development."
             addre="https://www.youtube.com/watch?v=l1EssrLxt7E&list=PLfqMhTWNBTe3H6c9OGXb5_6wcc1Mca52n"

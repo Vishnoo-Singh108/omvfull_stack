@@ -9,7 +9,7 @@ const Practice = () => {
 
    <>
      <Navi/>
-    <div className='grid pt-10 bg-black grid-cols-1 lg:grid-cols-2 p-8' >
+    <div className='grid pt-10 bg-violet-950 bg-gradient-to-r from-purple-900 via-black to-blue-950 grid-cols-1 lg:grid-cols-2 p-8' >
      
        <Tech img="https://cdn.worldvectorlogo.com/logos/hackerrank.svg" username="HackerRank" description="HackerRank is a platform for practicing coding, preparing for tech interviews, and participating in coding contests. Ideal for students and developers to sharpen problem-solving skills."  address="https://www.hackerrank.com/ " />
         <Tech img="Chef.jpg"  username="Codechef" description="CodeChef helps you improve problem-solving skills through competitive programming contests, practice questions, and challenges. Great platform to learn DSA and compete globally."  address="https://www.codechef.com/"/>

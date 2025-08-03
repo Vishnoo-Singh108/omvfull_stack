@@ -9,7 +9,7 @@ const Skill = () => {
           <>
       <Navi/>
 
-      <div className="bg-black min-h-screen px-4 py-8">
+      <div className="bg-violet-950 bg-gradient-to-r from-purple-900 via-black to-blue-950 min-h-screen px-4 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <Postcard
             username="Web Designing 2 (Backend with Node.js)"            image="piyush.png"

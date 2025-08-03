@@ -7,14 +7,14 @@ import { useNavigate } from "react-router-dom";
 import { AppContent } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import "react-toastify/dist/ReactToastify.css";
 
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Academic", href: "/academic" },
   { name: "Skill", href: "/skill" },
   { name: "Practice", href: "/practice" },
-  
+  { name: "Notes", href: "/notes" },
 ];
 
 export default function Nav() {
@@ -22,44 +22,44 @@ export default function Nav() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { userData, backendUrl, setUserData, setIsLoggedin } =
-  useContext(AppContent);
+    useContext(AppContent);
 
-
-   const logout = async () => {
+  const logout = async () => {
     try {
       axios.defaults.withCredentials = true;
-      const { data } = await axios.post(backendUrl + '/api/auth/logout');
-      data.success && setIsLoggedin(false)
-      data.success && setUserData(false)
-      navigate('/')
+      const { data } = await axios.post(backendUrl + "/api/auth/logout");
+      data.success && setIsLoggedin(false);
+      data.success && setUserData(false);
+      navigate("/");
     } catch (error) {
       toast.error(error.message);
     }
   };
 
-const verifyEmail = async () => {
-  try {
-    axios.defaults.withCredentials = true;
+  const verifyEmail = async () => {
+    try {
+      axios.defaults.withCredentials = true;
 
-const { data } = await axios.post(`${backendUrl}/api/auth/send-verify-otp`, {
-  userId: userData._id, 
-});
+      const { data } = await axios.post(
+        `${backendUrl}/api/auth/send-verify-otp`,
+        {
+          userId: userData._id,
+        }
+      );
 
-
-    if (data.success) {
-      toast.success("OTP sent successfully");
-      navigate("/email-verify");
-    } else {
-      toast.error("Failed to send OTP");
+      if (data.success) {
+        toast.success("OTP sent successfully");
+        navigate("/email-verify");
+      } else {
+        toast.error("Failed to send OTP");
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      toast.error("Something went wrong");
     }
-  } catch (error) {
-    console.error("Error sending OTP:", error);
-    toast.error("Something went wrong");
-  }
-};
+  };
 
-              
-const isActive = (href) => location.pathname === href
+  const isActive = (href) => location.pathname === href;
   return (
     <div className=" bg-violet-950 bg-gradient-to-r from-purple-900 via-black to-blue-950">
       <header className="absolute inset-x-0 top-0 z-50">
@@ -87,13 +87,13 @@ const isActive = (href) => location.pathname === href
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
-                 <a
+              <a
                 key={item.name}
                 href={item.href}
                 className={`text-sm font-semibold transition-colors duration-200 ${
                   isActive(item.href)
-                    ? 'text-purple-400'
-                    : 'text-white hover:text-purple-600'
+                    ? "text-purple-400"
+                    : "text-white hover:text-purple-600"
                 }`}
               >
                 {item.name}
@@ -101,14 +101,26 @@ const isActive = (href) => location.pathname === href
             ))}
           </div>
 
-         {userData ? (
+          {userData ? (
             <div className="text-white cursor-pointer lg:ml-130 font-semibold rounded-full bg-purple-600 w-9 h-9 flex items-center justify-center group">
               {userData.name[0].toUpperCase()}
-              <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-10" >
-                <ul className="list-none m-0 p-2 bg-gray-100 text-sm" >
-                  {!userData.isAccountVerified && <li onClick={verifyEmail} className="py-1 px-2 hover:bg-gray-300 cursor-pointer" >Verify Email</li> }
-                  
-                  <li onClick={logout} className="py-1 px-2 hover:bg-gray-300 cursor-pointer" >Logout</li>
+              <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-10">
+                <ul className="list-none m-0 p-2 bg-gray-100 text-sm">
+                  {!userData.isAccountVerified && (
+                    <li
+                      onClick={verifyEmail}
+                      className="py-1 px-2 hover:bg-gray-300 cursor-pointer"
+                    >
+                      Verify Email
+                    </li>
+                  )}
+
+                  <li
+                    onClick={logout}
+                    className="py-1 px-2 hover:bg-gray-300 cursor-pointer"
+                  >
+                    Logout
+                  </li>
                 </ul>
               </div>
             </div>
@@ -123,12 +135,21 @@ const isActive = (href) => location.pathname === href
             </div>
           )}
         </nav>
-<Dialog as="div" open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
+        <Dialog
+          as="div"
+          open={mobileMenuOpen}
+          onClose={setMobileMenuOpen}
+          className="lg:hidden"
+        >
           <div className="fixed inset-0 z-50" />
           <Dialog.Panel className="fixed inset-y-0 right-0 bg-black z-50 w-full overflow-y-auto p-6 sm:max-w-sm text-white">
             <div className="flex items-center justify-between">
-              <img src="/logo2.jpeg" alt="Logo" className="h-10 rounded-full
- w-auto" />
+              <img
+                src="/logo2.jpeg"
+                alt="Logo"
+                className="h-10 rounded-full
+ w-auto"
+              />
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
@@ -204,12 +225,13 @@ const isActive = (href) => location.pathname === href
               foundations, and never stop being curious."
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href="/"
-                className="rounded-md bg-indigo-500 bg-gradient-to-r from-indigo-900 via-blue-500 to-green-200 p-8 text-white px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Get started
-              </a>
+            <a
+  onClick={() =>toast.info("Explore the website to find more features!")}
+  className="rounded-md cursor-pointer bg-indigo-500 bg-gradient-to-r from-indigo-900 via-blue-500 to-green-200 p-8 text-white px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+>
+  Get started
+</a>
+
             </div>
           </div>
         </div>

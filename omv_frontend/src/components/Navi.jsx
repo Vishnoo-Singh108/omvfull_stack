@@ -8,67 +8,70 @@ import { AppContent } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Academic", href: "/academic" },
   { name: "Skill", href: "/skill" },
   { name: "Practice", href: "/practice" },
-
+  { name: "Notes", href: "/notes" },
 ];
 
 export default function Navi() {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { userData, backendUrl, setUserData, setIsLoggedin } =
-  useContext(AppContent);
+  const { userData, backendUrl, setUserData, setIsLoggedin } = useContext(AppContent);
 
-   const logout = async () => {
+  const logout = async () => {
     try {
       axios.defaults.withCredentials = true;
       const { data } = await axios.post(backendUrl + '/api/auth/logout');
-      data.success && setIsLoggedin(false)
-      data.success && setUserData(false)
-      navigate('/')
+      if (data.success) {
+        setIsLoggedin(false);
+        setUserData(false);
+        navigate('/');
+      }
     } catch (error) {
       toast.error(error.message);
     }
   };
 
-const verifyEmail = async () => {
-  try {
-    axios.defaults.withCredentials = true;
-
-const { data } = await axios.post(`${backendUrl}/api/auth/send-verify-otp`, {
-  userId: userData._id, 
-});
-
-
-    if (data.success) {
-      toast.success("OTP sent successfully");
-      navigate("/email-verify");
-    } else {
-      toast.error("Failed to send OTP");
+  const verifyEmail = async () => {
+    try {
+      axios.defaults.withCredentials = true;
+      const { data } = await axios.post(`${backendUrl}/api/auth/send-verify-otp`, {
+        userId: userData._id,
+      });
+      if (data.success) {
+        toast.success("OTP sent successfully");
+        navigate("/email-verify");
+      } else {
+        toast.error("Failed to send OTP");
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      toast.error("Something went wrong");
     }
-  } catch (error) {
-    console.error("Error sending OTP:", error);
-    toast.error("Something went wrong");
-  }
-};
+  };
+
   const isActive = (href) => location.pathname === href;
 
-
   return (
-    <div className="bg-[linear-gradient(to_bottom_right,_black,#000_85%,purple)]">
-      <header className="absolute inset-x-0 top-0 z-50">
-        <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+    <div className="bg-violet-950 bg-gradient-to-r from-purple-900 via-black to-blue-950">
+      {/* Header now ignores clicks unless inside nav */}
+      <header className="absolute inset-x-0 top-0 z-30 pointer-events-none">
+        <nav
+          className="pointer-events-auto flex items-center justify-between p-6 lg:px-8"
+          aria-label="Global"
+        >
           <div className="flex lg:flex-1">
-            <img src="/logo2.jpeg" alt="Logo" className="h-11 rounded-full
- m-1.5 p-1.5 w-auto hover:text-blue-500" />
+            <img
+              src="/logo2.jpeg"
+              alt="Logo"
+              className="h-11 rounded-full m-1.5 p-1.5 w-auto hover:text-blue-500"
+            />
           </div>
 
-          {/* Mobile menu button */}
           <div className="flex lg:hidden">
             <button
               type="button"
@@ -80,14 +83,15 @@ const { data } = await axios.post(`${backendUrl}/api/auth/send-verify-otp`, {
             </button>
           </div>
 
-          {/* Desktop nav */}
           <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
                 className={`text-sm font-semibold transition-colors duration-200 ${
-                  isActive(item.href) ? "text-purple-400" : "text-white hover:text-purple-600"
+                  isActive(item.href)
+                    ? "text-purple-400"
+                    : "text-white hover:text-purple-600"
                 }`}
               >
                 {item.name}
@@ -95,15 +99,25 @@ const { data } = await axios.post(`${backendUrl}/api/auth/send-verify-otp`, {
             ))}
           </div>
 
-          {/* Desktop user/login */}
           {userData ? (
             <div className="text-white cursor-pointer lg:ml-130 font-semibold rounded-full bg-purple-600 w-9 h-9 flex items-center justify-center group">
               {userData.name[0].toUpperCase()}
-              <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-10" >
-               <ul className="list-none m-0 p-2 bg-gray-100 text-sm" >
-                  {!userData.isAccountVerified && <li onClick={verifyEmail} className="py-1 px-2 hover:bg-gray-300 cursor-pointer" >Verify Email</li> }
-                  
-                  <li onClick={logout} className="py-1 px-2 hover:bg-gray-300 cursor-pointer" >Logout</li>
+              <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-10">
+                <ul className="list-none m-0 p-2 bg-gray-100 text-sm">
+                  {!userData.isAccountVerified && (
+                    <li
+                      onClick={verifyEmail}
+                      className="py-1 px-2 hover:bg-gray-300 cursor-pointer"
+                    >
+                      Verify Email
+                    </li>
+                  )}
+                  <li
+                    onClick={logout}
+                    className="py-1 px-2 hover:bg-gray-300 cursor-pointer"
+                  >
+                    Logout
+                  </li>
                 </ul>
               </div>
             </div>
@@ -119,13 +133,16 @@ const { data } = await axios.post(`${backendUrl}/api/auth/send-verify-otp`, {
           )}
         </nav>
 
-        {/* Mobile Menu */}
-        <Dialog as="div" open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
+        <Dialog
+          as="div"
+          open={mobileMenuOpen}
+          onClose={setMobileMenuOpen}
+          className="lg:hidden"
+        >
           <div className="fixed inset-0 z-50" />
           <Dialog.Panel className="fixed inset-y-0 right-0 bg-black z-50 w-full overflow-y-auto p-6 sm:max-w-sm text-white">
             <div className="flex items-center justify-between">
-              <img src="/logo2.jpeg" alt="Logo" className="h-10 rounded-full
- w-auto" />
+              <img src="/logo2.jpeg" alt="Logo" className="h-10 rounded-full w-auto" />
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
@@ -178,8 +195,8 @@ const { data } = await axios.post(`${backendUrl}/api/auth/send-verify-otp`, {
         </Dialog>
       </header>
 
-      {/* Decorative background blob */}
-      <div className="relative isolate px-6 pt-14 lg:px-8">
+      {/* Content padding increased to prevent overlap from header */}
+      <div className="relative isolate px-6 pt-78 lg:px-8">
         <div
           aria-hidden="true"
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"

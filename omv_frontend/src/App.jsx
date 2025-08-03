@@ -17,6 +17,7 @@ import EmailVerify from './pages/EmailVerify.jsx';
 
 import Academic from './pages/Academic.jsx';
 import Skill from './pages/Skill.jsx';
+import Notes from './pages/Notes.jsx';
 import Practice from './pages/Practice.jsx';
 import Appp from './Appp.jsx';
 import { ToastContainer } from 'react-toastify';
@@ -36,7 +37,7 @@ function App() {
   <Route path = '/login' element ={<Login/>}/>
   <Route path = '/email-verify' element ={<EmailVerify/>}/>
   
-
+<Route path ='/notes' element = {<Notes/>}/>
   <Route path ='/academic' element = {<Academic/>}/>
   <Route path ='/skill' element = {<Skill/>}/>
   <Route path ='/practice' element = {<Practice/>}/>
