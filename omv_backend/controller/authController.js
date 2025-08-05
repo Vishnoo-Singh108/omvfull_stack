@@ -20,7 +20,7 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "Email already in use." });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = password;
     const user = new userModel({ name, email, password: hashedPassword });
     await user.save();
 
@@ -40,8 +40,10 @@ export const register = async (req, res) => {
     const mailOptions = {
       from:process.env.SENDER_EMAIL,
       to:email,
-      subject: "Welcome to our platform OMV",
-      text:`Welcome to OMV website. Your account has been created successfully with email id:${email}`,
+      subject: "Welcome to our platform OMV ",
+      text:`Welcome to OMV website. Your account has been created successfully with email id:${email} and now you are the part of OMV family.
+       If you have any questions, feel free to reach out to us.
+      Thank you for joining us!`,
 
     }
 
@@ -66,7 +68,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid email" });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid password" });
     }
